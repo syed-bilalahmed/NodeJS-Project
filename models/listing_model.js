@@ -1,20 +1,36 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;  // Destructure Schema from mongoose
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const listingSchema = new Schema({
-    title: String,
-    desc: String,
-    image: {
-        default:"https://w7.pngwing.com/pngs/447/166/png-transparent-house-real-estate-property-bank-house-building-grass-window.png",
-        type: String,
-        set: (v) => v === "" ? "https://w7.pngwing.com/pngs/447/166/png-transparent-house-real-estate-property-bank-house-building-grass-window.png" : v
-    },
-    price: String,
-    location: String,
-    country: String
-}, {
-    timestamps: true  // Corrected to `timestamps` (with an 's') 
+const imageSchema = new Schema({
+  filename: {
+    type: String,
+    default: "default_image",
+  },
+  url: {
+    type: String,
+    default:
+      "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+    set: (v) =>
+      v === ""
+        ? "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
+        : v,
+  },
 });
 
-const Listing = mongoose.model("Listing", listingSchema);  // Pass the schema to the model function
-module.exports = Listing;  // Corrected to `module.exports`
+const listingSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  description: String,
+  image: {
+    type: imageSchema, // Embedding the image schema here
+    default: () => ({}), // Default empty object, triggering the defaults of imageSchema
+  },
+  price: Number,
+  location: String,
+  country: String,
+});
+
+const Listing = mongoose.model("Listing", listingSchema);
+module.exports = Listing;
