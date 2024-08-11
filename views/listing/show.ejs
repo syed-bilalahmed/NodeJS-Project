@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listing Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .card {
+            margin-bottom: 20px;
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Listing Details</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.image.filename %>">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= listing.title %></h5>
+                        <p class="card-text"><%= listing.description %></p>
+                        <p class="card-text"><strong>Price:</strong> $<%= listing.price %></p>
+                        <p class="card-text"><strong>Location:</strong> <%= listing.location %></p>
+                        <p class="card-text"><strong>Country:</strong> <%= listing.country %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
