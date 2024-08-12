@@ -6,19 +6,28 @@ const listingSchema = new Schema({
     type: String,
     required: true,
   },
-  description: String,
+  description: {
+    type: String,
+    trim: true,  // Removes whitespace from both ends of the string
+  },
   image: {
     type: String,
-    default:
-      "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
-    set: (v) =>
-      v === ""
-        ? "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
-        : v,
+    default: "https://example.com/default-image.jpg" // Replace with your default image URL
   },
-  price: Number,
-  location: String,
-  country: String,
+  price: {
+    type: Number,
+    min: [0, 'Price must be a positive number'], // Ensures price is not negative
+  },
+  location: {
+    type: String,
+    trim: true,  // Removes whitespace from both ends of the string
+  },
+  country: {
+    type: String,
+    trim: true,  // Removes whitespace from both ends of the string
+  },
+}, {
+  timestamps: true, // Adds createdAt and updatedAt fields
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

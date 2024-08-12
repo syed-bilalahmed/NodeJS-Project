@@ -1,21 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wanderlust</title>
-  </head>
-  <body>
-    <h3>Listing Details :</h3>
-    <ul>
-      <li><strong>Title:</strong> <%= listing.title %></li>
-      <li><strong>Description:</strong> <%= listing.description %></li>
-      <li><strong>Price:</strong> &#8377; <%= listing.price.toLocaleString("en-IN") %></li>
-      <li><strong>Location:</strong> <%= listing.location %></li>
-      <li><strong>Country:</strong> <%= listing.country %></li>
-    </ul>
-    <br />
-    <h4>Image:</h4>
-    <img src="<%= listing.image %>" alt="Listing Image" style="max-width: 100%; height: auto;" />
-  </body>
+    <title>Listing Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 CDN -->
+</head>
+<body>
+    <div class="container mt-5">
+        <h3>Listing Details</h3>
+        <ul class="list-unstyled">
+            <li><strong>Title:</strong> <%= listing.title %></li>
+            
+            <li><strong>Description:</strong> <%= listing.description %></li>
+            <li><strong>Price:</strong> &#8377; <%= listing.price.toLocaleString("en-IN") %></li>
+            <li><strong>Location:</strong> <%= listing.location %></li>
+            <li><strong>Country:</strong> <%= listing.country %></li>
+        </ul>
+        <br />
+        <a href="/listing/<%= listing._id %>/edit" class="btn btn-warning">Edit this Listing</a>
+        <br /><br />
+        <form id="deleteForm" method="POST" action="/listing/<%= listing._id %>?_method=DELETE">
+            <button type="submit" class="btn btn-danger">Delete this Listing</button>
+        </form>
+    </div>
+
+    <script>
+        document.querySelector('#deleteForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit(); // Submit the form if confirmed
+                }
+            });
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
 </html>

@@ -6,6 +6,8 @@ const Listing = require('./models/listing_model');
 const port = 8000;
 
 const path = require('path');
+const methoOverRide = require('method-override');
+const { table } = require('console');
 
 // Connection string
 const MONGO_URL = 'mongodb://localhost:27017/project';
@@ -30,7 +32,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({extended:true}));
 app.use(express.urlencoded({ extended: true }));
-
+app.use(methoOverRide("_method"));
 app.get("/",(req,res)=>{
   res.render("index.ejs")
 })
@@ -80,6 +82,52 @@ app.post("/listing", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+// app.get("/listing/:id/edit", async (req, res) => {
+//   let { id } = req.params;
+//   const listing = await Listing.findById(id);
+//   res.render("listing/edit.ejs", { listing });
+// });
+app.get('/listing/:id/edit', async (req, res) => {
+  try {
+    const listing = await Listing.findById(req.params.id);
+    if (!listing) {
+      return res.status(404).send("Listing not found");
+    }
+    res.render('listing/edit', { listing });
+  } catch (error) {
+    console.error("Error fetching listing:", error);
+    res.status(500).send("Error fetching listing");
+  }
+});
+
+app.put('/listing/:id', async (req, res) => {
+  let { id } = req.params;
+  try {
+    await Listing.findByIdAndUpdate(id, req.body.listing);
+    console.log("Data has been updated");
+    res.redirect('/listing');
+  } catch (error) {
+    console.error("Error updating listing:", error);
+    res.status(500).send("Error updating listing");
+  }
+});
+
+app.delete('/listing/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedListing = await Listing.findByIdAndDelete(id);
+    if (deletedListing) {
+      console.log("Deleted listing:", deletedListing);
+      res.redirect('/listing'); // Adjust redirection based on your routing
+    } else {
+      res.status(404).send("Listing not found");
+    }
+  } catch (error) {
+    console.error("Error deleting listing:", error);
+    res.status(500).send("Internal server error");
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

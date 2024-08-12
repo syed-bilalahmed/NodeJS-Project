@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Listing</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 CDN -->
+</head>
+<body>
+  <div class="container mt-5">
+    <h3>Edit Your Listing</h3>
+    <form id="editForm" method="POST" action="/listing/<%= listing._id %>?_method=PUT">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input id="title" name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="listing[description]" class="form-control"><%= listing.description %></textarea>
+      </div>
+      <div class="form-group">
+        <label for="image">Image URL</label>
+        <input id="image" name="listing[image]" value="<%= listing.image %>" type="text" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input id="price" name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="country">Country</label>
+        <input id="country" name="listing[country]" value="<%= listing.country %>" type="text" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input id="location" name="listing[location]" value="<%= listing.location %>" type="text" class="form-control" />
+      </div>
+      <button type="submit" class="btn btn-primary">Edit</button>
+    </form>
+  </div>
+
+  <script>
+    document.querySelector('#editForm').addEventListener('submit', function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to save the changes?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, save changes!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.submit(); // Submit the form if confirmed
+        }
+      });
+    });
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
