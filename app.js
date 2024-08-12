@@ -30,6 +30,9 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({extended:true}));
 
+app.get("/",(req,res)=>{
+  res.render("index.ejs")
+})
 
 
 
@@ -43,6 +46,10 @@ app.get("/list", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+//new route
+app.get("/listing/new",(req,res)=>{
+  res.render("listing/new.ejs");
+})
 
 
  //show route 
