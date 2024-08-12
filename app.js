@@ -29,6 +29,7 @@ main();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/",(req,res)=>{
   res.render("index.ejs")
@@ -37,7 +38,7 @@ app.get("/",(req,res)=>{
 
 
 //index route
-app.get("/list", async (req, res) => {
+app.get("/listing", async (req, res) => {
   try {
     const all_listing = await Listing.find({});
     res.render("listing/index", { all_listing });
@@ -68,7 +69,17 @@ app.get("/listing/new",(req,res)=>{
   }
 });
 
-
+app.post("/listing", async (req, res) => {
+  try {
+    const newListing = new Listing(req.body.listing);
+    await newListing.save();
+    console.log("Listing saved successfully");
+    res.redirect("/listing"); // Redirect or render a success page
+  } catch (error) {
+    console.error("Error saving listing:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

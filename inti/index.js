@@ -2,34 +2,30 @@ const mongoose = require("mongoose");
 const initData = require("./data.js");
 const Listing = require("../models/listing_model.js");
 
-const MONGO_URL= mongoose.connect('mongodb://localhost:27017/project', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 30000, // Increase to 30 seconds
-  socketTimeoutMS: 45000, // Increase to 45 seconds
-});
+const MONGO_URL = "mongodb://127.0.0.1:27017/project";
 
-main()
-  .then(() => {
-    console.log("connected to DB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
+// Define the main function first
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  try {
+    await mongoose.connect(MONGO_URL);
+    console.log("connected to DB");
+
+    // Call initDB after successful connection
+    await initDB();
+  } catch (err) {
+    console.log(err);
+  }
 }
 
+// Define initDB function
+const initDB = async () => {
+  try {
+    await Listing.insertMany(initData.data);
+    console.log("data was initialized");
+  } catch (err) {
+    console.log("Error initializing data:", err);
+  }
+};
 
-
-
-
-const initDB    =  async ()=>{
- 
- await Listing.insertMany(initData.data);
- console.log("Data was initialoized");
- 
-}
-
-initDB();
+// Call the main function
+main();
