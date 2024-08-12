@@ -14,22 +14,35 @@
             text-align: center;
             vertical-align: middle;
         }
+        .serial-number {
+            width: 10%;
+        }
+        .additional-info {
+            width: 20%; /* Adjust width for additional info column */
+        }
     </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Listings</h1>
+    <form action="/listing/new" method="get">
+        <button class="btn btn-primary">add new List</button>
+    </form>
+    
+    <div class="container mt-8">
+        <h1 class="mb-2">Listings</h1>
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th class="serial-number">#</th>
                     <th>Title</th>
-                    
+                    <th class="additional-info">Additional Info</th> <!-- Placeholder for additional info -->
                 </tr>
             </thead>
             <tbody>
-                <% all_listing.forEach(listing => { %>
+                <% all_listing.forEach((listing, index) => { %>
                     <tr>
+                        <td class="serial-number"><%= index + 1 %></td>
                         <td><a href="listing/<%= listing._id %>"><%= listing.title %></a></td>
+                        <td class="additional-info">N/A</td> <!-- Placeholder text -->
                     </tr>
                 <% }) %>
             </tbody>
