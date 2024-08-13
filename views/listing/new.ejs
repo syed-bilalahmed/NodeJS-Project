@@ -1,100 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WanderLust</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <style>
-        .container {
-            max-width: 600px;
-        }
-        .form-group input, .form-group textarea {
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-5">
-        <h3>Create a New Listing</h3>
-        <form id="listingForm" method="POST" action="/listing">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input id="title" name="listing[title]" class="form-control" placeholder="Enter title" type="text" required />
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea id="description" name="listing[description]" class="form-control" placeholder="Enter description" rows="4"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="image">Image URL</label>
-                <input id="image" name="listing[image]" class="form-control" placeholder="Enter image URL/Link" type="text" />
-            </div>
-            <div class="form-group">
-                <label for="price">Price</label>
-                <input id="price" name="listing[price]" class="form-control" placeholder="Enter price" type="number" />
-            </div>
-            <div class="form-group">
-                <label for="country">Country</label>
-                <input id="country" name="listing[country]" class="form-control" placeholder="Enter country" type="text" />
-            </div>
-            <div class="form-group">
-                <label for="location">Location</label>
-                <input id="location" name="listing[location]" class="form-control" placeholder="Enter location" type="text" />
-            </div>
-            <button type="submit" class="btn btn-primary">Add</button>
-        </form>
-    </div>
-
-    <!-- jQuery and Bootstrap JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <!-- SweetAlert2 JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        // Add event listener to the form
-        document.getElementById('listingForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            // Use Fetch API to submit the form data
-            fetch(this.action, {
-                method: this.method,
-                body: new FormData(this),
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json(); // Assume the server responds with JSON
-                } else {
-                    throw new Error('Network response was not ok.');
-                }
-            })
-            .then(data => {
-                // Display SweetAlert2 popup for success
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'Listing added successfully!',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    window.location.href = '/listings'; // Redirect to listings page after alert
-                });
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-
-                // Display SweetAlert2 popup for error
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'There was a problem adding the listing.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            });
-        });
-    </script>
-</body>
+  </head>
+  <body>
+    <h3>Create a New Listing</h3>
+    <form method="POST" action="/listing">
+      <input name="listing[title]" placeholder="enter title" type="text" />
+      <br /><br />
+      <textarea
+        name="listing[description]"
+        placeholder="enter description"
+      ></textarea>
+      <br /><br />
+      <input
+        name="listing[image]"
+        placeholder="enter image URL/Link"
+        type="text"
+      />
+      <br /><br />
+      <input name="listing[price]" placeholder="enter price" type="number" />
+      <br /><br />
+      <input name="listing[country]" placeholder="enter country" type="text" />
+      <br /><br />
+      <input
+        name="listing[location]"
+        placeholder="enter location"
+        type="text"
+      />
+      <br /><br />
+      <button>Add</button>
+    </form>
+  </body>
 </html>
